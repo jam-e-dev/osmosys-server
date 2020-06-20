@@ -6,20 +6,23 @@ namespace Server.Database.Tables
     {
         private readonly IIdentifierTypeCodingTableCreator _identifierTypeCodingTableCreator;
         private readonly IIdentifierTypeTableCreator _identifierTypeTableCreator;
+        private readonly IPatientTableCreator _patientTableCreator;
         
         public TableCreator(
             IIdentifierTypeCodingTableCreator identifierTypeCodingTableCreator,
-            IIdentifierTypeTableCreator identifierTypeTableCreator)
+            IIdentifierTypeTableCreator identifierTypeTableCreator,
+            IPatientTableCreator patientTableCreator)
         {
             _identifierTypeCodingTableCreator = identifierTypeCodingTableCreator;
             _identifierTypeTableCreator = identifierTypeTableCreator;
+            _patientTableCreator = patientTableCreator;
         }
         
         public async Task CreateIfNotExistsAsync()
         {
-            
             await _identifierTypeTableCreator.CreateIfNotExistsAsync();
             await _identifierTypeCodingTableCreator.CreateIfNotExistsAsync();
+            await _patientTableCreator.CreateIfNotExistsAsync();
         }
     }
 }
