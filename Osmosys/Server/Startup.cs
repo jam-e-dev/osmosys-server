@@ -42,6 +42,7 @@ namespace Server
             services.AddScoped<IIdentifierTypeCodingTableCreator, IdentifierTypeCodingTableCreator>();
             services.AddScoped<IIdentifierTypeTableCreator, IdentifierTypeTableCreator>();
             services.AddScoped<IPatientTableCreator, PatientTableCreator>();
+            services.AddScoped<IPatientIdentifierTableCreator, PatientIdentifierTableCreator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

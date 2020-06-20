@@ -7,15 +7,18 @@ namespace Server.Database.Tables
         private readonly IIdentifierTypeCodingTableCreator _identifierTypeCodingTableCreator;
         private readonly IIdentifierTypeTableCreator _identifierTypeTableCreator;
         private readonly IPatientTableCreator _patientTableCreator;
+        private readonly IPatientIdentifierTableCreator _patientIdentifierTableCreator;
         
         public TableCreator(
             IIdentifierTypeCodingTableCreator identifierTypeCodingTableCreator,
             IIdentifierTypeTableCreator identifierTypeTableCreator,
-            IPatientTableCreator patientTableCreator)
+            IPatientTableCreator patientTableCreator,
+            IPatientIdentifierTableCreator patientIdentifierTableCreator)
         {
             _identifierTypeCodingTableCreator = identifierTypeCodingTableCreator;
             _identifierTypeTableCreator = identifierTypeTableCreator;
             _patientTableCreator = patientTableCreator;
+            _patientIdentifierTableCreator = patientIdentifierTableCreator;
         }
         
         public async Task CreateIfNotExistsAsync()
@@ -23,6 +26,7 @@ namespace Server.Database.Tables
             await _identifierTypeTableCreator.CreateIfNotExistsAsync();
             await _identifierTypeCodingTableCreator.CreateIfNotExistsAsync();
             await _patientTableCreator.CreateIfNotExistsAsync();
+            await _patientIdentifierTableCreator.CreateIfNotExistsAsync();
         }
     }
 }
