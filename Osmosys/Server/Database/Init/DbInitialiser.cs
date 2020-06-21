@@ -11,20 +11,20 @@ namespace Server.Database.Init
         private readonly ServerConnection _serverConnection;
         private readonly IDbVerifier _dbVerifier;
         private readonly IDbCreator _dbCreator;
-        private readonly ITableCreator _tableCreator;
+        private readonly ITableInitialiser _tableInitialiser;
 
         public DbInitialiser(
             DbConnection dbConnection,
             ServerConnection serverConnection,
             IDbVerifier dbVerifier,
             IDbCreator dbCreator,
-            ITableCreator tableCreator)
+            ITableInitialiser tableInitialiser)
         {
             _dbConnection = dbConnection;
             _serverConnection = serverConnection;
             _dbVerifier = dbVerifier;
             _dbCreator = dbCreator;
-            _tableCreator = tableCreator;
+            _tableInitialiser = tableInitialiser;
         }
 
         public async Task InitAsync()
@@ -60,7 +60,7 @@ namespace Server.Database.Init
 
                 try
                 {
-                    await _tableCreator.CreateIfNotExistsAsync();
+                    await _tableInitialiser.InitAsync();
                     await _dbConnection.CommitTransactionAsync();
                 }
                 catch

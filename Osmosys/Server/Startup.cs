@@ -26,6 +26,7 @@ using Server.Database.Tables.Patients.Names;
 using Server.Database.Tables.Patients.Names.Given;
 using Server.Database.Tables.Patients.Names.Prefix;
 using Server.Database.Tables.Patients.Names.Suffix;
+using Server.IdentifierTypes;
 
 namespace Server
 {
@@ -51,6 +52,7 @@ namespace Server
             services.AddScoped<IDbCreator, DbCreator>();
 
             services.AddScoped<ITableCreator, TableCreator>();
+            services.AddScoped<ITableInitialiser, TableInitialiser>();
             
             services.AddScoped<IIdentifierTypeCodingTableCreator, IdentifierTypeCodingTableCreator>();
             services.AddScoped<IIdentifierTypeTableCreator, IdentifierTypeTableCreator>();
@@ -70,6 +72,9 @@ namespace Server
             services.AddScoped<IPatientMetadataProfileTableCreator, PatientMetadataProfileTableCreator>();
             services.AddScoped<IPatientMetadataSecurityTableCreator, PatientMetadataSecurityTableCreator>();
             services.AddScoped<IPatientMetadataTagTableCreator, PatientMetadataTagTableCreator>();
+
+            services.AddScoped<IIdentifierTypeRecordWriter, IdentifierTypeRecordWriter>();
+            services.AddScoped<IIdentifierTypeRecordReader, IdentifierTypeRecordReader>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
