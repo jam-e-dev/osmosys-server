@@ -1,4 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Server.Database.Tables.Patients.Names;
+using Server.Database.Tables.Prefix;
+using Server.Database.Tables.Suffix;
 
 namespace Server.Database.Tables
 {
@@ -8,17 +11,29 @@ namespace Server.Database.Tables
         private readonly IIdentifierTypeTableCreator _identifierTypeTableCreator;
         private readonly IPatientTableCreator _patientTableCreator;
         private readonly IPatientIdentifierTableCreator _patientIdentifierTableCreator;
-        
+        private readonly IPatientNameTableCreator _patientNameTableCreator;
+        private readonly IPatientGivenNameTableCreator _patientGivenNameTableCreator;
+        private readonly IPatientNamePrefixTableCreator _patientNamePrefixTableCreator;
+        private readonly IPatientNameSuffixTableCreator _patientNameSuffixTableCreator;
+
         public TableCreator(
             IIdentifierTypeCodingTableCreator identifierTypeCodingTableCreator,
             IIdentifierTypeTableCreator identifierTypeTableCreator,
             IPatientTableCreator patientTableCreator,
-            IPatientIdentifierTableCreator patientIdentifierTableCreator)
+            IPatientIdentifierTableCreator patientIdentifierTableCreator,
+            IPatientNameTableCreator patientNameTableCreator,
+            IPatientGivenNameTableCreator patientGivenNameTableCreator,
+            IPatientNamePrefixTableCreator patientNamePrefixTableCreator,
+            IPatientNameSuffixTableCreator patientNameSuffixTableCreator)
         {
             _identifierTypeCodingTableCreator = identifierTypeCodingTableCreator;
             _identifierTypeTableCreator = identifierTypeTableCreator;
             _patientTableCreator = patientTableCreator;
             _patientIdentifierTableCreator = patientIdentifierTableCreator;
+            _patientNameTableCreator = patientNameTableCreator;
+            _patientGivenNameTableCreator = patientGivenNameTableCreator;
+            _patientNameSuffixTableCreator = patientNameSuffixTableCreator;
+            _patientNamePrefixTableCreator = patientNamePrefixTableCreator;
         }
         
         public async Task CreateIfNotExistsAsync()
@@ -27,6 +42,10 @@ namespace Server.Database.Tables
             await _identifierTypeCodingTableCreator.CreateIfNotExistsAsync();
             await _patientTableCreator.CreateIfNotExistsAsync();
             await _patientIdentifierTableCreator.CreateIfNotExistsAsync();
+            await _patientNameTableCreator.CreateIfNotExistsAsync();
+            await _patientGivenNameTableCreator.CreateIfNotExistsAsync();
+            await _patientNamePrefixTableCreator.CreateIfNotExistsAsync();
+            await _patientNameSuffixTableCreator.CreateIfNotExistsAsync();
         }
     }
 }
