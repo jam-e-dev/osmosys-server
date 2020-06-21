@@ -16,6 +16,7 @@ using Server.Database.Init;
 using Server.Database.Tables;
 using Server.Database.Tables.IdentifierTypes;
 using Server.Database.Tables.Patients;
+using Server.Database.Tables.Patients.Addresses;
 using Server.Database.Tables.Patients.Identifiers;
 using Server.Database.Tables.Patients.Names;
 using Server.Database.Tables.Patients.Names.Given;
@@ -57,6 +58,9 @@ namespace Server
             services.AddScoped<IPatientNamePrefixTableCreator, PatientNamePrefixTableCreator>();
             services.AddScoped<IPatientNameSuffixTableCreator, PatientNameSuffixTableCreator>();
             services.AddScoped<IPatientNameTableCreator, PatientNameTableCreator>();
+
+            services.AddScoped<IPatientAddressTableCreator, PatientAddressTableCreator>();
+            services.AddScoped<IPatientAddressLineTableCreator, PatientAddressLineTableCreator>();
 
 
         }

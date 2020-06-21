@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Server.Database.Tables.IdentifierTypes;
 using Server.Database.Tables.Patients;
+using Server.Database.Tables.Patients.Addresses;
 using Server.Database.Tables.Patients.Identifiers;
 using Server.Database.Tables.Patients.Names;
 using Server.Database.Tables.Patients.Names.Given;
@@ -19,6 +20,8 @@ namespace Server.Database.Tables
         private readonly IPatientGivenNameTableCreator _patientGivenNameTableCreator;
         private readonly IPatientNamePrefixTableCreator _patientNamePrefixTableCreator;
         private readonly IPatientNameSuffixTableCreator _patientNameSuffixTableCreator;
+        private readonly IPatientAddressTableCreator _patientAddressTableCreator;
+        private readonly IPatientAddressLineTableCreator _patientAddressLineTableCreator;
 
         public TableCreator(
             IIdentifierTypeCodingTableCreator identifierTypeCodingTableCreator,
@@ -28,7 +31,9 @@ namespace Server.Database.Tables
             IPatientNameTableCreator patientNameTableCreator,
             IPatientGivenNameTableCreator patientGivenNameTableCreator,
             IPatientNamePrefixTableCreator patientNamePrefixTableCreator,
-            IPatientNameSuffixTableCreator patientNameSuffixTableCreator)
+            IPatientNameSuffixTableCreator patientNameSuffixTableCreator,
+            IPatientAddressTableCreator patientAddressTableCreator,
+            IPatientAddressLineTableCreator patientAddressLineTableCreator)
         {
             _identifierTypeCodingTableCreator = identifierTypeCodingTableCreator;
             _identifierTypeTableCreator = identifierTypeTableCreator;
@@ -38,6 +43,8 @@ namespace Server.Database.Tables
             _patientGivenNameTableCreator = patientGivenNameTableCreator;
             _patientNameSuffixTableCreator = patientNameSuffixTableCreator;
             _patientNamePrefixTableCreator = patientNamePrefixTableCreator;
+            _patientAddressTableCreator = patientAddressTableCreator;
+            _patientAddressLineTableCreator = patientAddressLineTableCreator;
         }
         
         public async Task CreateIfNotExistsAsync()
@@ -50,6 +57,8 @@ namespace Server.Database.Tables
             await _patientGivenNameTableCreator.CreateIfNotExistsAsync();
             await _patientNamePrefixTableCreator.CreateIfNotExistsAsync();
             await _patientNameSuffixTableCreator.CreateIfNotExistsAsync();
+            await _patientAddressTableCreator.CreateIfNotExistsAsync();
+            await _patientAddressLineTableCreator.CreateIfNotExistsAsync();
         }
     }
 }
