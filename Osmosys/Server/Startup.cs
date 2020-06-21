@@ -18,6 +18,10 @@ using Server.Database.Tables.IdentifierTypes;
 using Server.Database.Tables.Patients;
 using Server.Database.Tables.Patients.Addresses;
 using Server.Database.Tables.Patients.Identifiers;
+using Server.Database.Tables.Patients.Metadata;
+using Server.Database.Tables.Patients.Metadata.Profiles;
+using Server.Database.Tables.Patients.Metadata.Security;
+using Server.Database.Tables.Patients.Metadata.Tags;
 using Server.Database.Tables.Patients.Names;
 using Server.Database.Tables.Patients.Names.Given;
 using Server.Database.Tables.Patients.Names.Prefix;
@@ -62,7 +66,10 @@ namespace Server
             services.AddScoped<IPatientAddressTableCreator, PatientAddressTableCreator>();
             services.AddScoped<IPatientAddressLineTableCreator, PatientAddressLineTableCreator>();
 
-
+            services.AddScoped<IPatientMetadataTableCreator, PatientMetadataTableCreator>();
+            services.AddScoped<IPatientMetadataProfileTableCreator, PatientMetadataProfileTableCreator>();
+            services.AddScoped<IPatientMetadataSecurityTableCreator, PatientMetadataSecurityTableCreator>();
+            services.AddScoped<IPatientMetadataTagTableCreator, PatientMetadataTagTableCreator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
