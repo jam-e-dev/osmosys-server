@@ -2,7 +2,7 @@
 using Npgsql;
 using Server.Database.Connection;
 
-namespace Server.Database.Tables.Prefix
+namespace Server.Database.Tables.Patients.Names.Prefix
 {
     public class PatientNamePrefixTableCreator : IPatientNamePrefixTableCreator
     {

@@ -1,7 +1,11 @@
 ﻿using System.Threading.Tasks;
+using Server.Database.Tables.IdentifierTypes;
+using Server.Database.Tables.Patients;
+using Server.Database.Tables.Patients.Identifiers;
 using Server.Database.Tables.Patients.Names;
-using Server.Database.Tables.Prefix;
-using Server.Database.Tables.Suffix;
+using Server.Database.Tables.Patients.Names.Given;
+using Server.Database.Tables.Patients.Names.Prefix;
+using Server.Database.Tables.Patients.Names.Suffix;
 
 namespace Server.Database.Tables
 {

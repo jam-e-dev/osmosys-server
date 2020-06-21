@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Server.Database.Tables.Suffix
+namespace Server.Database.Tables.Patients.Names.Suffix
 {
     public interface IPatientNameSuffixTableCreator
     {

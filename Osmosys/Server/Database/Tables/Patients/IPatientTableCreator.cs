@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace Server.Database.Tables
+namespace Server.Database.Tables.Patients
 {
-    public interface IPatientIdentifierTableCreator
+    public interface IPatientTableCreator
     {
         Task CreateIfNotExistsAsync();
     }

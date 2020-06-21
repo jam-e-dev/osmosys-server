@@ -2,7 +2,7 @@
 using Npgsql;
 using Server.Database.Connection;
 
-namespace Server.Database.Tables
+namespace Server.Database.Tables.Patients.Identifiers
 {
     public class PatientIdentifierTableCreator : IPatientIdentifierTableCreator
     {

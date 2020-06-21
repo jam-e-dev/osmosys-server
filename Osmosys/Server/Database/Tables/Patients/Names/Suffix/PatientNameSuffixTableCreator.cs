@@ -2,7 +2,7 @@
 using Npgsql;
 using Server.Database.Connection;
 
-namespace Server.Database.Tables.Suffix
+namespace Server.Database.Tables.Patients.Names.Suffix
 {
     public class PatientNameSuffixTableCreator : IPatientNameSuffixTableCreator
     {
