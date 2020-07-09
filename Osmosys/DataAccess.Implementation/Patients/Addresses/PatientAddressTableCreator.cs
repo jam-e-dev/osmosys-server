@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
+using DataAccess.Implementation.Connection;
+using DataAccess.Patients.Addresses;
 using Npgsql;
-using Server.Database.Connection;
 
-namespace Server.Database.Tables.Patients.Addresses
+namespace DataAccess.Implementation.Patients.Addresses
 {
     public class PatientAddressTableCreator : IPatientAddressTableCreator
     {
