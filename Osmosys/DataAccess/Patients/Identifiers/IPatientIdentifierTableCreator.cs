@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Server.Database.Tables.Patients.Identifiers
+namespace DataAccess.Patients.Identifiers
 {
     public interface IPatientIdentifierTableCreator
     {
