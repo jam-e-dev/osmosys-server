@@ -1,24 +1,38 @@
 ﻿using System.Threading.Tasks;
-using DataAccess.Implementation.Connection;
+using DataAccess.Implementation.Sql;
 using DataAccess.Patients.Addresses;
-using Npgsql;
 
 namespace DataAccess.Implementation.Patients.Addresses
 {
     public class PatientAddressTableCreator : IPatientAddressTableCreator
     {
-        private readonly DbConnection _connection;
-
-        public PatientAddressTableCreator(DbConnection connection)
+        private readonly TableBuilderFactory _builderFactory;
+        private readonly PatientAddressTable _table;
+        
+        public PatientAddressTableCreator(
+            TableBuilderFactory factory,
+            PatientAddressTable table)
         {
-            _connection = connection;
+            _builderFactory = factory;
+            _table = table;
         }
         
         public async Task CreateIfNotExistsAsync()
         {
-            const string sql = "create table if not exists patient_addresses (pk bigserial primary key, patient_fk bigint, foreign key (patient_fk) references patients(pk), use text, type text, text text, city text, district text, state text, postal_code text, country text, period_start timestamp, period_end timestamp)";
-            await using var cmd = new NpgsqlCommand(sql, _connection.Current);
-            await cmd.ExecuteNonQueryAsync();
+            await _builderFactory.Create(_table.TblName)
+                .Add(_table.Pk)
+                .Add(_table.PatientFk)
+                .Add(_table.Use)
+                .Add(_table.Type)
+                .Add(_table.Text)
+                .Add(_table.City)
+                .Add(_table.District)
+                .Add(_table.State)
+                .Add(_table.PostalCode)
+                .Add(_table.Country)
+                .Add(_table.PeriodStart)
+                .Add(_table.PeriodEnd)
+                .CreateIfNotExistsAsync();
         }
     }
 }
