@@ -1,27 +1,31 @@
 ﻿using System.Threading.Tasks;
+using Common.DataTypes;
+using DataAccess.Implementation.Connection;
+using DataAccess.Patients.Identifiers;
+using DataAccess.Patients.Identifiers.Types;
 using Npgsql;
-using Server.Database.Connection;
 
-namespace Server.IdentifierTypes
+namespace DataAccess.Implementation.Patients.Identifiers.Types
 {
     public class IdentifierTypeRecordWriter : IIdentifierTypeRecordWriter
     {
-        private readonly DbConnection _connection;
+        private readonly DbDatabaseConnection _databaseConnection;
 
         public IdentifierTypeRecordWriter(
-            DbConnection connection)
+            DbDatabaseConnection databaseConnection)
         {
-            _connection = connection;
+            _databaseConnection = databaseConnection;
         }
         
         public async Task WriteAsync(CodeableConcept type)
         {
-            var typePk = await WriteAsync(type, _connection.Current);
-            await WriteAsync(type.Coding, _connection.Current, typePk);
+            var typePk = await WriteAsync(type, _databaseConnection.Current);
+            await WriteAsync(type.Coding, _databaseConnection.Current, typePk);
         }
 
         private static async Task<long> WriteAsync(CodeableConcept type, NpgsqlConnection connection)
         {
+            //TODO Refactor into command builder.
             const string sql = "insert into identifier_types (text) values (@text) returning pk";
             await using var cmd = new NpgsqlCommand(sql, connection);
             cmd.Parameters.AddWithValue("text", type.Text);
@@ -38,6 +42,7 @@ namespace Server.IdentifierTypes
 
         private static async Task WriteAsync(Coding coding, NpgsqlConnection connection, long typePk)
         {
+            //TODO Refactor into command builder.
             const string sql = "insert into identifier_type_codings (identifier_type_fk, system, version, code, display, user_selected) VALUES (@identifierTypePk, @system, @version, @code, @display, @userSelected)";
             await using var cmd = new NpgsqlCommand(sql, connection);
             

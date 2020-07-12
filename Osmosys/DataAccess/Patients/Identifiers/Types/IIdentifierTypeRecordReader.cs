@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Server.IdentifierTypes
+namespace DataAccess.Patients.Identifiers.Types
 {
     public interface IIdentifierTypeRecordReader
     {

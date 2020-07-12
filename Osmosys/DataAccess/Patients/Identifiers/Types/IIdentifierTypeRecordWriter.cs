@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Common.DataTypes;
 
-namespace Server.IdentifierTypes
+namespace DataAccess.Patients.Identifiers.Types
 {
     public interface IIdentifierTypeRecordWriter
     {

@@ -1,7 +1,7 @@
 ﻿using DataAccess.Implementation.Sql;
 using DataAccess.Implementation.Sql.Constraints;
 
-namespace DataAccess.Implementation.Patients.Identifiers
+namespace DataAccess.Implementation.Patients.Identifiers.Types
 {
     public static class IdentifierTypeCodingTable
     {

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Server.Database.Tables.IdentifierTypes
+namespace DataAccess.Patients.Identifiers.Types
 {
     public interface IIdentifierTypeCodingTableCreator
     {

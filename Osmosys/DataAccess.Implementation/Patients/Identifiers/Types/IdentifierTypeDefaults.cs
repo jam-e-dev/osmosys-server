@@ -1,4 +1,6 @@
-﻿namespace Server.IdentifierTypes
+﻿using Common.DataTypes;
+
+namespace DataAccess.Implementation.Patients.Identifiers.Types
 {
     public static class IdentifierTypeDefaults
     {

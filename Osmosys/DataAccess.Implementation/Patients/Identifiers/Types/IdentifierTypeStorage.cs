@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using DataAccess.Patients.Identifiers;
+using DataAccess.Patients.Identifiers.Types;
 
-namespace DataAccess.Implementation.Patients.Identifiers
+namespace DataAccess.Implementation.Patients.Identifiers.Types
 {
     public class IdentifierTypeStorage : IIdentifierTypeStorage
     {
