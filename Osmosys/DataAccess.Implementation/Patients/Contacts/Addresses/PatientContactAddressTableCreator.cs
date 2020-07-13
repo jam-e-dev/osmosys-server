@@ -1,24 +1,28 @@
 ﻿using System.Threading.Tasks;
-using DataAccess.Implementation.Connection;
+using DataAccess.Implementation.Sql;
 using DataAccess.Patients.Addresses;
-using Npgsql;
 
 namespace DataAccess.Implementation.Patients.Contacts.Addresses
 {
     public class PatientContactAddressTableCreator : IPatientAddressTableCreator
     {
-        private readonly DbDatabaseConnection _databaseConnection;
+        private readonly PatientContactAddressTable _table;
+        private readonly TableBuilderFactory _builderFactory;
 
-        public PatientContactAddressTableCreator(DbDatabaseConnection databaseConnection)
+        public PatientContactAddressTableCreator(
+            PatientContactAddressTable table,
+            TableBuilderFactory builderFactory)
         {
-            _databaseConnection = databaseConnection;
+            _table = table;
+            _builderFactory = builderFactory;
         }
         
         public async Task CreateIfNotExistsAsync()
         {
-            const string sql = "create table if not exists patient_addresses (pk bigserial primary key, patient_fk bigint, foreign key (patient_fk) references patients(pk), use text, type text, text text, city text, district text, state text, postal_code text, country text, period_start timestamp, period_end timestamp)";
-            await using var cmd = new NpgsqlCommand(sql, _databaseConnection.Current);
-            await cmd.ExecuteNonQueryAsync();
+            await _builderFactory.Create(_table.TblName)
+                .Add(_table.Pk)
+                .Add(_table.Line)
+                .CreateIfNotExistsAsync();
         }
     }
 }
