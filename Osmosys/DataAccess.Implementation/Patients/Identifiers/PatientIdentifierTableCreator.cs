@@ -6,38 +6,29 @@ namespace DataAccess.Implementation.Patients.Identifiers
 {
     public class PatientIdentifierTableCreator : IPatientIdentifierTableCreator
     {
-        private readonly DbTableFactory _factory;
+        private readonly TableBuilderFactory _builderFactory;
+        private readonly PatientIdentifierTable _table;
 
-        public PatientIdentifierTableCreator(DbTableFactory factory)
+        public PatientIdentifierTableCreator(
+            TableBuilderFactory factory,
+            PatientIdentifierTable table)
         {
-            _factory = factory;
+            _builderFactory = factory;
+            _table = table;
         }
         
         public async Task CreateIfNotExistsAsync()
         {
-            var table = _factory.Create(PatientIdentifierTable.Name);
-            
-            table.Add(new[]
-            {
-                PatientIdentifierTable.Pk,
-                PatientIdentifierTable.PatientFk,
-                PatientIdentifierTable.IdentiferTypeFk,
-                PatientIdentifierTable.Use,
-                PatientIdentifierTable.System,
-                PatientIdentifierTable.Value,
-                PatientIdentifierTable.PeriodStart,
-                PatientIdentifierTable.PeriodEnd
-            });
-
-            table.Add(new[]
-            {
-                PatientIdentifierTable.PatientFk,
-                PatientIdentifierTable.IdentiferTypeFk
-            });
-
-            table.Add(PatientIdentifierTable.Pk);
-
-            await table.CreateIfNotExistsAsync();
+            await _builderFactory.Create(_table.TblName)
+                .Add(_table.Pk)
+                .Add(_table.PatientFk)
+                .Add(_table.IdentiferTypeFk)
+                .Add(_table.Use)
+                .Add(_table.System)
+                .Add(_table.Value)
+                .Add(_table.PeriodStart)
+                .Add(_table.PeriodEnd)
+                .CreateIfNotExistsAsync();
         }
     }
 }
