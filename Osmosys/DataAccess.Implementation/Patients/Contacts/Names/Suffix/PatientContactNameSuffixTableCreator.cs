@@ -1,16 +1,16 @@
 ﻿using System.Threading.Tasks;
 using DataAccess.Implementation.Sql;
-using DataAccess.Patients.Contacts.Names.Prefix;
+using DataAccess.Patients.Contacts.Names.Suffix;
 
-namespace DataAccess.Implementation.Patients.Contacts.Names.Prefix
+namespace DataAccess.Implementation.Patients.Contacts.Names.Suffix
 {
-    public class PatientContactNamePrefixTableCreator : IPatientContactPrefixTableCreator
+    public class PatientContactNameSuffixTableCreator : IPatientContactSuffixTableCreator
     {
-        private readonly PatientContactNamePrefixTable _table;
+        private readonly PatientContactNameSuffixTable _table;
         private readonly TableBuilderFactory _builderFactory;
 
-        public PatientContactNamePrefixTableCreator(
-            PatientContactNamePrefixTable table,
+        public PatientContactNameSuffixTableCreator(
+            PatientContactNameSuffixTable table,
             TableBuilderFactory builderFactory)
         {
             _table = table;
@@ -22,7 +22,7 @@ namespace DataAccess.Implementation.Patients.Contacts.Names.Prefix
             await _builderFactory.Create(_table.TblName)
                 .Add(_table.Pk)
                 .Add(_table.PatientNameFk)
-                .Add(_table.Prefix)
+                .Add(_table.Suffix)
                 .CreateIfNotExistsAsync();
         }
     }
