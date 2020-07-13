@@ -3,12 +3,13 @@ using DataAccess.Implementation.Sql.Constraints;
 
 namespace DataAccess.Implementation.Patients.Identifiers.Types
 {
-    public static class IdentifierTypeTable
+    public class IdentifierTypeTable : TableDefinition
     {
-        public const string Name = "identifier_types";
+        public PrimaryKey Pk => AddPrimary("pk");
+        public  DbColumn Text => AddColumn("text", DataTypes.Text);
 
-        public static readonly DbColumn Pk = new DbColumn("pk", DataTypes.Long);
-        public static readonly DbColumn Text = new DbColumn("text", DataTypes.Text);
-        public static readonly PrimaryKey PkConstraint = new PrimaryKey(Pk);
+        public IdentifierTypeTable() : base("identifier_types")
+        {
+        }
     }
 }

@@ -1,42 +1,33 @@
 ﻿using System.Threading.Tasks;
 using DataAccess.Implementation.Sql;
-using DataAccess.Patients.Identifiers;
 using DataAccess.Patients.Identifiers.Types;
 
 namespace DataAccess.Implementation.Patients.Identifiers.Types
 {
     public class IdentifierTypeCodingTableCreator : IIdentifierTypeCodingTableCreator
     {
-        private readonly DbTableFactory _factory;
-
-        public IdentifierTypeCodingTableCreator(DbTableFactory factory)
+        private readonly TableBuilderFactory _builderFactory;
+        private readonly IdentifierTypeCodingTable _table;
+        
+        public IdentifierTypeCodingTableCreator(
+            TableBuilderFactory factory,
+            IdentifierTypeCodingTable table)
         {
-            _factory = factory;
+            _builderFactory = factory;
+            _table = table;
         }
 
         public async Task CreateIfNotExistsAsync()
         {
-            var table = _factory.Create(IdentifierTypeTable.Name);
-            
-            table.Add(new[]
-            {
-                IdentifierTypeCodingTable.Pk,
-                IdentifierTypeCodingTable.IdentifierTypeFk,
-                IdentifierTypeCodingTable.System,
-                IdentifierTypeCodingTable.Version,
-                IdentifierTypeCodingTable.Code,
-                IdentifierTypeCodingTable.Display,
-                IdentifierTypeCodingTable.UserSelected
-            });
-
-            table.Add(new[]
-            {
-                IdentifierTypeCodingTable.IdentifierTypeFkConstraint
-            });
-
-            table.Add(IdentifierTypeCodingTable.PkConstraint);
-
-            await table.CreateIfNotExistsAsync();
+            await _builderFactory.Create(_table.TblName)
+                .Add(_table.Pk)
+                .Add(_table.IdentifierTypeFk)
+                .Add(_table.System)
+                .Add(_table.Version)
+                .Add(_table.Code)
+                .Add(_table.Display)
+                .Add(_table.UserSelected)
+                .CreateIfNotExistsAsync();
         }
     }
 }

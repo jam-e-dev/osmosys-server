@@ -1,32 +1,28 @@
 ﻿using System.Threading.Tasks;
 using DataAccess.Implementation.Sql;
-using DataAccess.Patients.Identifiers;
 using DataAccess.Patients.Identifiers.Types;
 
 namespace DataAccess.Implementation.Patients.Identifiers.Types
 {
     public class IdentifierTypeTableCreator : IIdentifierTypeTableCreator
     {
-        private readonly DbTableFactory _factory;
+        private readonly TableBuilderFactory _builderFactory;
+        private readonly IdentifierTypeTable _table;
 
-        public IdentifierTypeTableCreator(DbTableFactory factory)
+        public IdentifierTypeTableCreator(
+            TableBuilderFactory factory,
+            IdentifierTypeTable table)
         {
-            _factory = factory;
+            _builderFactory = factory;
+            _table = table;
         }
         
         public async Task CreateIfNotExistsAsync()
         {
-            var table = _factory.Create(IdentifierTypeTable.Name);
-            
-            table.Add(new[]
-            {
-                IdentifierTypeTable.Pk,
-                IdentifierTypeTable.Text
-            });
-
-            table.Add(IdentifierTypeTable.PkConstraint);
-
-            await table.CreateIfNotExistsAsync();
+            await _builderFactory.Create(_table.TblName)
+                .Add(_table.Pk)
+                .Add(_table.Text)
+                .CreateIfNotExistsAsync();
         }
     }
 }
