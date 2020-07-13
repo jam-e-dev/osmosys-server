@@ -1,22 +1,23 @@
 ﻿using System.Threading.Tasks;
+using DataAccess.Implementation.Connection;
+using DataAccess.Patients.Contacts.Names.Given;
 using Npgsql;
-using Server.Database.Connection;
 
-namespace Server.Database.Tables.Patients.Contacts.Names.Given
+namespace DataAccess.Implementation.Patients.Contacts.Names.Given
 {
     public class PatientContactGivenNameTableCreator : IPatientContactGivenNameTableCreator
     {
-        private readonly DbConnection _connection;
+        private readonly DbDatabaseConnection _databaseConnection;
 
-        public PatientContactGivenNameTableCreator(DbConnection connection)
+        public PatientContactGivenNameTableCreator(DbDatabaseConnection databaseConnection)
         {
-            _connection = connection;
+            _databaseConnection = databaseConnection;
         }
         
         public async Task CreateIfNotExistsAsync()
         {
             const string sql = "create table if not exists patient_contact_given_names (pk bigserial primary key, patient_contact_name_fk bigint, foreign key patient_contact_name_fk references patient_contact_names(pk), name text)";
-            await using var cmd = new NpgsqlCommand(sql, _connection.Current);
+            await using var cmd = new NpgsqlCommand(sql, _databaseConnection.Current);
             await cmd.ExecuteNonQueryAsync();
         }
     }
