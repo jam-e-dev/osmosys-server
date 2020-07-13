@@ -1,4 +1,7 @@
-﻿namespace Server.Database.Tables.Patients.Contacts.Relationships
+﻿using Common;
+using Common.DataTypes;
+
+namespace DataAccess.Implementation.Patients.Contacts.Relationships
 {
     public static class PatientContactRelationshipDefaults
     {

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Server.Database.Tables.Patients.Contacts.Relationships
+namespace DataAccess.Patients.Contacts.Relationships
 {
     public interface IPatientContactRelationshipRecordReader
     {

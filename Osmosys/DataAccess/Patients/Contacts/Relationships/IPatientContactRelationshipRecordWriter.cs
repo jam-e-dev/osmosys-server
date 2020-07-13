@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
+using Common;
+using Common.DataTypes;
 
-namespace Server.Database.Tables.Patients.Contacts.Relationships
+namespace DataAccess.Patients.Contacts.Relationships
 {
     public interface IPatientContactRelationshipRecordWriter
     {
