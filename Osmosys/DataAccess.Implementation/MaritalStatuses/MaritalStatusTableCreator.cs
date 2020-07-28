@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using DataAccess.Implementation.Sql;
-using DataAccess.Patients.MaritalStatuses;
+using DataAccess.MaritalStatuses;
 
-namespace DataAccess.Implementation.Patients.MaritalStatuses
+namespace DataAccess.Implementation.MaritalStatuses
 {
     public class MaritalStatusTableCreator : IMaritalStatusTableCreator
     {

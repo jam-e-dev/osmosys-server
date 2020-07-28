@@ -1,32 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using DataAccess.Connections;
+using DataAccess.Implementation.Connections;
+using DataAccess.Implementation.Init;
+using DataAccess.Implementation.MaritalStatuses;
+using DataAccess.Init;
+using DataAccess.MaritalStatuses;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Server.Database;
-using Server.Database.Connection;
-using Server.Database.Init;
-using Server.Database.Tables;
-using Server.Database.Tables.IdentifierTypes;
-using Server.Database.Tables.Patients;
-using Server.Database.Tables.Patients.Addresses;
-using Server.Database.Tables.Patients.Identifiers;
-using Server.Database.Tables.Patients.Metadata;
-using Server.Database.Tables.Patients.Metadata.Profiles;
-using Server.Database.Tables.Patients.Metadata.Security;
-using Server.Database.Tables.Patients.Metadata.Tags;
-using Server.Database.Tables.Patients.Names;
-using Server.Database.Tables.Patients.Names.Given;
-using Server.Database.Tables.Patients.Names.Prefix;
-using Server.Database.Tables.Patients.Names.Suffix;
-using Server.IdentifierTypes;
+using Npgsql;
 
 namespace Server
 {
@@ -43,38 +26,39 @@ namespace Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            ConfigureDbConnections(services);
+            ConfigureDbSetupServices(services);
+            ConfigureMaritalStatusStorage(services);
+        }
 
-            services.AddScoped<DbConnection>();
-            services.AddScoped<ServerConnection>();
-            
+        private static void ConfigureDbConnections(IServiceCollection services)
+        {
+            /*
+             * Connection implements both interfaces.
+             * This binding allows re-use of object in same injection scope for both interfaces.
+             */
+            services.AddScoped<IServerConnection<NpgsqlConnection>, ServerConnection>();
+            services.AddScoped<DatabaseConnection>();
+            services.AddScoped<IDbConnection<NpgsqlConnection>>(x => x.GetService<DatabaseConnection>());
+            services.AddScoped<ITransaction>(x => x.GetService<DatabaseConnection>());
+        }
+        
+        private static void ConfigureDbSetupServices(IServiceCollection services)
+        {
             services.AddScoped<IDbInitialiser, DbInitialiser>();
-            services.AddScoped<IDbVerifier, DbVerifier>();
             services.AddScoped<IDbCreator, DbCreator>();
-
-            services.AddScoped<ITableCreator, TableCreator>();
+            services.AddScoped<IDbVerifier, DbVerifier>();
             services.AddScoped<ITableInitialiser, TableInitialiser>();
-            
-            services.AddScoped<IIdentifierTypeCodingTableCreator, IdentifierTypeCodingTableCreator>();
-            services.AddScoped<IIdentifierTypeTableCreator, IdentifierTypeTableCreator>();
-            
-            services.AddScoped<IPatientTableCreator, PatientTableCreator>();
-            services.AddScoped<IPatientIdentifierTableCreator, PatientIdentifierTableCreator>();
+        }
 
-            services.AddScoped<IPatientGivenNameTableCreator, PatientGivenNameTableCreator>();
-            services.AddScoped<IPatientNamePrefixTableCreator, PatientNamePrefixTableCreator>();
-            services.AddScoped<IPatientNameSuffixTableCreator, PatientNameSuffixTableCreator>();
-            services.AddScoped<IPatientNameTableCreator, PatientNameTableCreator>();
-
-            services.AddScoped<IPatientAddressTableCreator, PatientAddressTableCreator>();
-            services.AddScoped<IPatientAddressLineTableCreator, PatientAddressLineTableCreator>();
-
-            services.AddScoped<IPatientMetadataTableCreator, PatientMetadataTableCreator>();
-            services.AddScoped<IPatientMetadataProfileTableCreator, PatientMetadataProfileTableCreator>();
-            services.AddScoped<IPatientMetadataSecurityTableCreator, PatientMetadataSecurityTableCreator>();
-            services.AddScoped<IPatientMetadataTagTableCreator, PatientMetadataTagTableCreator>();
-
-            services.AddScoped<IIdentifierTypeRecordWriter, IdentifierTypeRecordWriter>();
-            services.AddScoped<IIdentifierTypeRecordReader, IdentifierTypeRecordReader>();
+        private static void ConfigureMaritalStatusStorage(IServiceCollection services)
+        {
+            services.AddScoped<IMaritalStatusStorage, MaritalStatusStorage>();
+            services.AddScoped<IMaritalStatusTableCreator, MaritalStatusTableCreator>();
+            services.AddScoped<IMaritalStatusCodingTableCreator, MaritalStatusCodingTableCreator>();
+            services.AddScoped<IMaritalStatusRecordWriter, MaritalStatusRecordWriter>();
+            services.AddScoped<IMaritalStatusCodingRecordWriter, MaritalStatusCodingRecordWriter>();
+            services.AddScoped<IMaritalStatusRecordReader, MaritalStatusRecordReader>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

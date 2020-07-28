@@ -1,7 +1,7 @@
 ﻿using DataAccess.Implementation.Sql;
 using DataAccess.Implementation.Sql.Constraints;
 
-namespace DataAccess.Implementation.Patients.MaritalStatuses
+namespace DataAccess.Implementation.MaritalStatuses
 {
     public class MaritalStatusTable : TableDefinition
     {

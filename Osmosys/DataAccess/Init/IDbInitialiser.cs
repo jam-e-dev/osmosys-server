@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Server.Database.Init
+namespace DataAccess.Init
 {
     public interface IDbInitialiser
     {

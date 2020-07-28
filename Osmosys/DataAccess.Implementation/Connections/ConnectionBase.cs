@@ -2,16 +2,16 @@
 using System.Threading.Tasks;
 using Npgsql;
 
-namespace Server.Database.Connection
+namespace DataAccess.Implementation.Connections
 {
-    public abstract class Connection
+    public abstract class ConnectionBase
     {
         private readonly string _connectionString;
-        private NpgsqlConnection _current;
+        private NpgsqlConnection? _current;
 
         public NpgsqlConnection Current => _current ?? throw new InvalidOperationException("No DB connection active.");
 
-        protected Connection(string connectionString)
+        protected ConnectionBase(string connectionString)
         {
             _connectionString = connectionString;
         }

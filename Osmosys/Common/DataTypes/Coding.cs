@@ -1,4 +1,4 @@
-﻿namespace Server
+﻿namespace Common.DataTypes
 {
     public class Coding
     {

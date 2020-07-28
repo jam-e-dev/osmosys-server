@@ -1,25 +1,30 @@
-﻿using System;
+﻿using System.Data;
 using System.Threading.Tasks;
-using Server.Database.Connection;
-using Server.Database.Tables;
+using DataAccess.Connections;
+using DataAccess.Implementation.Connections;
+using DataAccess.Init;
+using Npgsql;
 
-namespace Server.Database.Init
+namespace DataAccess.Implementation.Init
 {
     public class DbInitialiser : IDbInitialiser
     {
-        private readonly DbConnection _dbConnection;
+        private readonly ITransaction _transaction;
+        private readonly IDbConnection<NpgsqlConnection> _dbConnection;
         private readonly ServerConnection _serverConnection;
         private readonly IDbVerifier _dbVerifier;
         private readonly IDbCreator _dbCreator;
         private readonly ITableInitialiser _tableInitialiser;
 
         public DbInitialiser(
-            DbConnection dbConnection,
+            ITransaction transaction,
+            IDbConnection<NpgsqlConnection> dbConnection,
             ServerConnection serverConnection,
             IDbVerifier dbVerifier,
             IDbCreator dbCreator,
             ITableInitialiser tableInitialiser)
         {
+            _transaction = transaction;
             _dbConnection = dbConnection;
             _serverConnection = serverConnection;
             _dbVerifier = dbVerifier;
@@ -56,16 +61,16 @@ namespace Server.Database.Init
 
             try
             {
-                await _dbConnection.BeginTransactionAsync();
+                await _transaction.BeginAsync();
 
                 try
                 {
                     await _tableInitialiser.InitAsync();
-                    await _dbConnection.CommitTransactionAsync();
+                    await _transaction.CommitAsync();
                 }
                 catch
                 {
-                    await _dbConnection.RollbackTransactionAsync();
+                    await _transaction.RollbackAsync();
                     throw;
                 }
             }

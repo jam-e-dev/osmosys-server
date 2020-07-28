@@ -1,17 +1,17 @@
-﻿﻿using DataAccess.Connection;
+﻿using DataAccess.Connections;
 using Npgsql;
 
 namespace DataAccess.Implementation.Sql
 {
     public class TableBuilderFactory
     {
-        private readonly IDatabaseConnection<NpgsqlConnection> _connection;
+        private readonly IDbConnection<NpgsqlConnection> _dbConnection;
 
-        public TableBuilderFactory(IDatabaseConnection<NpgsqlConnection> connection)
+        public TableBuilderFactory(IDbConnection<NpgsqlConnection> dbConnection)
         {
-            _connection = connection;
+            _dbConnection = dbConnection;
         }
         
-        public TableBuilder Create(string tableName) => new TableBuilder(tableName, _connection); 
+        public TableBuilder Create(string tableName) => new TableBuilder(tableName, _dbConnection); 
     }
 }

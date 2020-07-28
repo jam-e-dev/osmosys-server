@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Server.Database.Tables
+namespace DataAccess.Init
 {
     public interface ITableInitialiser
     {

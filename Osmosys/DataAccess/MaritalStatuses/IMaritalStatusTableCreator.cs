@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace DataAccess.Patients.MaritalStatuses
+namespace DataAccess.MaritalStatuses
 {
     public interface IMaritalStatusTableCreator
     {

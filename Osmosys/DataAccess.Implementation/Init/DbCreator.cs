@@ -1,14 +1,16 @@
 ﻿using System.Threading.Tasks;
+using DataAccess.Connections;
+using DataAccess.Implementation.Connections;
+using DataAccess.Init;
 using Npgsql;
-using Server.Database.Connection;
 
-namespace Server.Database.Init
+namespace DataAccess.Implementation.Init
 {
     public class DbCreator : IDbCreator
     {
-        private readonly ServerConnection _connection;
+        private readonly IServerConnection<NpgsqlConnection> _connection;
 
-        public DbCreator(ServerConnection connection)
+        public DbCreator(IServerConnection<NpgsqlConnection> connection)
         {
             _connection = connection;
         }

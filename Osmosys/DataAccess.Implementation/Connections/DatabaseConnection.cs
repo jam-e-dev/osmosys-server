@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Threading.Tasks;
+using DataAccess.Connections;
 using Npgsql;
 
-namespace Server.Database.Connection
+namespace DataAccess.Implementation.Connections
 {
-    public class DbConnection : Connection
+    public class DatabaseConnection : ConnectionBase, ITransaction, IDbConnection<NpgsqlConnection>
     {
         private static readonly string DbConnStr = $"Server=127.0.0.1;Port=5432;Database={Db.Name};User Id=postgres;Password=password;";
-        private NpgsqlTransaction _transaction;
+        private NpgsqlTransaction? _transaction;
         
-        public DbConnection() : base(DbConnStr) {}
+        public DatabaseConnection() : base(DbConnStr) {}
         
-        public async Task BeginTransactionAsync()
+        public async Task BeginAsync()
         {
             if (_transaction != null)
             {
@@ -21,7 +22,7 @@ namespace Server.Database.Connection
             _transaction = await Current.BeginTransactionAsync();
         }
 
-        public async Task CommitTransactionAsync()
+        public async Task CommitAsync()
         {
             if (_transaction == null)
             {
@@ -33,7 +34,7 @@ namespace Server.Database.Connection
             await transaction.CommitAsync();
         }
 
-        public async Task RollbackTransactionAsync()
+        public async Task RollbackAsync()
         {
             if (_transaction == null)
             {

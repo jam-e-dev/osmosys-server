@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using DataAccess.Connection;
+using DataAccess.Connections;
 using DataAccess.Implementation.Sql.Constraints;
 using Npgsql;
 
@@ -10,15 +10,15 @@ namespace DataAccess.Implementation.Sql
     {
         public string Name { get; }
 
-        private readonly IDatabaseConnection<NpgsqlConnection> _connection;
+        private readonly IDbConnection<NpgsqlConnection> _dbConnection;
         private readonly List<DbColumn> _columns;
         private readonly List<ForeignKey> _foreignKeys;
         private PrimaryKey? _primaryKey;
 
-        public TableBuilder(string tableName, IDatabaseConnection<NpgsqlConnection> connection)
+        public TableBuilder(string tableName, IDbConnection<NpgsqlConnection> dbConnection)
         {
             Name = tableName;
-            _connection = connection;
+            _dbConnection = dbConnection;
             _columns = new List<DbColumn>();
             _foreignKeys = new List<ForeignKey>();
         }
@@ -44,7 +44,7 @@ namespace DataAccess.Implementation.Sql
         public async Task CreateIfNotExistsAsync()
         {
             var sql = PrepareSql();
-            await using var cmd = new NpgsqlCommand(sql, _connection.Current);
+            await using var cmd = new NpgsqlCommand(sql, _dbConnection.Current);
             await cmd.ExecuteNonQueryAsync();
         }
 

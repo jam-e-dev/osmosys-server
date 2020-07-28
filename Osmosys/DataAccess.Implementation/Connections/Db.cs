@@ -1,4 +1,4 @@
-﻿namespace Server.Database
+﻿namespace DataAccess.Implementation.Connections
 {
     public static class Db
     {
